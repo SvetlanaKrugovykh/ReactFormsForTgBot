@@ -2,10 +2,12 @@ import React, {useCallback, useEffect, useState} from 'react';
 import './Form.css';
 import {useTelegram} from "../../hooks/useTelegram";
 
-const Form = () => {
-	console.log('Form');
-	//const tg = useTelegram();
+const sendReqToDB = require("../../hooks/toDB");
 
+
+const Form = () => {
+	//const tg = useTelegram();
+	
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 	const [PIB, setPIB] = useState('');
@@ -14,27 +16,30 @@ const Form = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
+		const id = "???????";
+		const verificationCode = "??????";
     const data = {
       email,
       password,
-			PIB,
+      PIB,
       contract,
       address,
+			verificationCode,
+			id
     };
-    console.log(data); // or you can send the data to the server here
+		sendReqToDB('___UserRegistration__', data);
   };
-
 
   // const onSendData = useCallback(() => {
   //       const data = {
-  //           email,
-	// 					password,
-	// 					contract,
-  //           address,
-  //           subject
+  //     email,
+  //     password,
+  //     PIB,
+  //     contract,
+  //     address,
   //       }
   //       tg.sendData(JSON.stringify(data));
-  //   }, [email, password, contract, address, subject, tg])
+  //   }, [      email, password, PIB, contract, address,  tg])
 
   //   useEffect(() => {
   //       tg.onEvent('mainButtonClicked', onSendData)
@@ -49,41 +54,38 @@ const Form = () => {
   //       })
   //   }, [])
 
-  //   useEffect(() => {
-  //       if(!address || !email) {
-  //           tg.MainButton.hide();
-  //       } else {
-  //           tg.MainButton.show();
-  //       }
-  //   }, [email, password, contract, address, tg.MainButton])
+  //    useEffect(() => {
+  //        if(!address || !email) {
+  //            tg.MainButton.hide();
+  //        } else {
+  //            tg.MainButton.show();
+  //        }
+  //    }, [email, password, contract, address, tg.MainButton])
 
-  const onChangeEmail = (e) => {
-    setEmail(e.target.value);
-  };
+const onChangeEmail = (e) => {
+  setEmail(e.target.value);
+};
 
-  const onChangePassword = (e) => {
-    setPassword(e.target.value);
-  };
+const onChangePassword = (e) => {
+  setPassword(e.target.value);
+};
 
-  const onChangePIB = (e) => {
-    setPIB(e.target.value);
-  };
-  const onChangeContract = (e) => {
-    setContract(e.target.value);
-  };
+const onChangePIB = (e) => {
+  setPIB(e.target.value);
+};
 
-  const onChangeAddress = (e) => {
-    setAddress(e.target.value);
-  };
+const onChangeContract = (e) => {
+  setContract(e.target.value);
+};
 
-    // const onChangeSubject = (e) => {
-    //     setSubject(e.target.value)
-    // }
+const onChangeAddress = (e) => {
+  setAddress(e.target.value);
+};
 
-  return (
+	return (
     <div className={'form'}>
       <h3>Введіть ваші дані.</h3>
-			<h4>Email є обов'язковим, очикуйте код веріфікації на цей Email </h4>
+			<h4>Email є обов'язковим, очікуйте код верифікації на цей Email</h4>
       <form onSubmit={onSubmit}>
         <input
           className={'input'}
@@ -120,8 +122,8 @@ const Form = () => {
           value={address}
           onChange={onChangeAddress}
         />
-        <button className={'submit'} type="submit">
-          Отправить данные
+        <button className="submit" type="submit">
+          Відправити введені дані на сервер
         </button>
       </form>
     </div>
