@@ -2,65 +2,46 @@ import React, {useCallback, useEffect, useState} from 'react';
 import './Form.css';
 import {useTelegram} from "../../hooks/useTelegram";
 
-const sendReqToDB = require("../../hooks/toDB");
-
-
 const Form = () => {
-	//const tg = useTelegram();
-	
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 	const [PIB, setPIB] = useState('');
   const [contract, setContract] = useState('');
   const [address, setAddress] = useState('');
+	const tg = useTelegram();
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-		const id = "???????";
-		const verificationCode = "??????";
+
+	const onSendData = useCallback(() => {
     const data = {
       email,
       password,
       PIB,
       contract,
-      address,
-			verificationCode,
-			id
-    };
-		sendReqToDB('___UserRegistration__', data);
-  };
+      address
+      }
+      tg.sendData(JSON.stringify(data));
+}, [email, password,  PIB,  contract,  address, tg])
 
-  // const onSendData = useCallback(() => {
-  //       const data = {
-  //     email,
-  //     password,
-  //     PIB,
-  //     contract,
-  //     address,
-  //       }
-  //       tg.sendData(JSON.stringify(data));
-  //   }, [      email, password, PIB, contract, address,  tg])
+    useEffect(() => {
+        	tg.onEvent('mainButtonClicked', onSendData)
+        return () => {
+        	tg.offEvent('mainButtonClicked', onSendData)
+        }
+    }, [onSendData, tg])
 
-  //   useEffect(() => {
-  //       tg.onEvent('mainButtonClicked', onSendData)
-  //       return () => {
-  //           tg.offEvent('mainButtonClicked', onSendData)
-  //       }
-  //   }, [onSendData, tg])
+    useEffect(() => {
+        tg.MainButton.setParams({
+            text: 'Отправить данные'
+        })
+    }, [tg])
 
-  //   useEffect(() => {
-  //       tg.MainButton.setParams({
-  //           text: 'Отправить данные'
-  //       })
-  //   }, [])
-
-  //    useEffect(() => {
-  //        if(!address || !email) {
-  //            tg.MainButton.hide();
-  //        } else {
-  //            tg.MainButton.show();
-  //        }
-  //    }, [email, password, contract, address, tg.MainButton])
+	 useEffect(() => {
+         if(!address || !email) {
+             tg.MainButton.hide();
+         } else {
+             tg.MainButton.show();
+         }
+  }, [email, password,  PIB,  contract,  address, tg ])
 
 const onChangeEmail = (e) => {
   setEmail(e.target.value);
@@ -86,7 +67,6 @@ const onChangeAddress = (e) => {
     <div className={'form'}>
       <h3>Введіть ваші дані.</h3>
 			<h4>Email є обов'язковим, очікуйте код верифікації на цей Email</h4>
-      <form onSubmit={onSubmit}>
         <input
           className={'input'}
           type="text"
@@ -122,10 +102,7 @@ const onChangeAddress = (e) => {
           value={address}
           onChange={onChangeAddress}
         />
-        <button className="submit" type="submit">
-          Відправити введені дані на сервер
-        </button>
-      </form>
+	
     </div>
   );
 };

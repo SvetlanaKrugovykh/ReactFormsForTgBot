@@ -6,22 +6,19 @@ import { Route, Routes } from 'react-router-dom'
 import Form from "./components/Form/Form";
 
 function App() {
-	// const { onToggleButton, tg } = useTelegram();
+	const { onToggleButton, tg } = useTelegram();
 
-	// useEffect(() => {
-	// 	tg.ready();
-	// }, [])
+	useEffect(() => {
+		tg.ready();
+	}, [tg])
 
 	return (
 		<div className="App">
-			<header className="App-header">
-				<Form />
-			</header>
-			{/* <Header /> */}
-			{/* <Routes> */}
-			{/* <Route index element={<ProductList />} /> */}
-			{/* <Route path={'form'} element={<Form />} /> */}
-			{/* </Routes> */}
+			<Header />
+			<Routes>
+				<Route path={'form'} element={<Form />} />
+			</Routes>
+			<button onClick={onToggleButton}></button>
 		</div>
 	);
 }
