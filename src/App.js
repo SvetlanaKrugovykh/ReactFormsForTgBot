@@ -18,7 +18,7 @@ function App() {
 			<Routes>
 				<Route path={'form'} element={<Form />} />
 			</Routes>
-			<button onClick={onToggleButton}></button>
+			<button onClick={onToggleButton}> Відправити інформацію на сервер </button>
 		</div>
 	);
 }

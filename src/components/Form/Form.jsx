@@ -22,26 +22,32 @@ const Form = () => {
       tg.sendData(JSON.stringify(data));
 }, [email, password,  PIB,  contract,  address, tg])
 
-    useEffect(() => {
-        	tg.onEvent('mainButtonClicked', onSendData)
-        return () => {
-        	tg.offEvent('mainButtonClicked', onSendData)
-        }
-    }, [onSendData, tg])
+ useEffect(() => {
+    if (tg && tg.onEvent) {
+      tg.onEvent('mainButtonClicked', onSendData);
+      return () => {
+        tg.offEvent('mainButtonClicked', onSendData);
+      };
+    }
+  }, [onSendData, tg]);
 
-    useEffect(() => {
-        tg.MainButton.setParams({
-            text: 'Отправить данные'
-        })
-    }, [tg])
+  useEffect(() => {
+    if (tg && tg.MainButton) {
+      tg.MainButton.setParams({
+        text: 'Отправить данные',
+      });
+    }
+  }, [tg]);
 
-	 useEffect(() => {
-         if(!address || !email) {
-             tg.MainButton.hide();
-         } else {
-             tg.MainButton.show();
-         }
-  }, [email, password,  PIB,  contract,  address, tg ])
+  useEffect(() => {
+    if (tg && tg.MainButton) {
+      if (!address || !email) {
+        tg.MainButton.hide();
+      } else {
+        tg.MainButton.show();
+      }
+    }
+  }, [email, password, PIB, contract, address, tg]);
 
 const onChangeEmail = (e) => {
   setEmail(e.target.value);
