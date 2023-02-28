@@ -8,8 +8,7 @@ const Form = () => {
 	const [PIB, setPIB] = useState('');
   const [contract, setContract] = useState('');
   const [address, setAddress] = useState('');
-	const tg = useTelegram();
-
+	const { onToggleButton, tg } = useTelegram();
 
 	const onSendData = useCallback(() => {
     const data = {
@@ -108,7 +107,11 @@ const onChangeAddress = (e) => {
           value={address}
           onChange={onChangeAddress}
         />
-	
+				<button 
+				className={'submit'}
+				onClick={onToggleButton}
+				> Відправити інформацію на сервер </button>
+
     </div>
   );
 };
