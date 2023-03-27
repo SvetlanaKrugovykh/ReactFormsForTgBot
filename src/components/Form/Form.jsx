@@ -107,10 +107,10 @@ const onChangeAddress = (e) => {
           value={address}
           onChange={onChangeAddress}
         />
-				<button 
+				{/* <button 
 				className={'submit'}
 				onClick={onToggleButton}
-				> Відправити інформацію на сервер </button>
+				> Відправити інформацію на сервер </button> */}
 
     </div>
   );
