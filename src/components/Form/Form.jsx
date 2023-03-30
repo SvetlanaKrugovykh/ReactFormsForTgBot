@@ -4,6 +4,7 @@ import {useTelegram} from "../../hooks/useTelegram";
 
 const Form = () => {
   const [email, setEmail] = useState('');
+	const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
 	const [PIB, setPIB] = useState('');
   const [contract, setContract] = useState('');
@@ -13,13 +14,14 @@ const Form = () => {
 	const onSendData = useCallback(() => {
     const data = {
       email,
+			phoneNumber,
       password,
       PIB,
       contract,
       address
       }
       tg.sendData(JSON.stringify(data));
-}, [email, password,  PIB,  contract,  address, tg])
+}, [email, phoneNumber, password,  PIB,  contract,  address, tg])
 
  useEffect(() => {
     if (tg && tg.onEvent) {
@@ -46,10 +48,14 @@ const Form = () => {
         tg.MainButton.show();
       }
     }
-  }, [email, password, PIB, contract, address, tg]);
+  }, [email, phoneNumber, password, PIB, contract, address, tg]);
 
 const onChangeEmail = (e) => {
   setEmail(e.target.value);
+};
+
+const onChangePhoneNumber = (e) => {
+  setPhoneNumber(e.target.value);
 };
 
 const onChangePassword = (e) => {
@@ -78,6 +84,13 @@ const onChangeAddress = (e) => {
           placeholder={'Email (є обов\'язковим)'}
           value={email}
           onChange={onChangeEmail}
+        />
+        <input
+          className={'input'}
+          type="text"
+          placeholder={'Номер телефона (є обов\'язковим)'}
+          value={phoneNumber}
+          onChange={onChangePhoneNumber}
         />
         <input
           className={'input'}
