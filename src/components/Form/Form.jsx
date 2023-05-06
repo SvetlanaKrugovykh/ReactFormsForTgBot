@@ -51,30 +51,31 @@ const Form = () => {
   }, [email, phoneNumber, password, PIB, contract, address, tg]);
 
 const onChangeEmail = (e) => {
-  setEmail(e.target.value);
+	 setEmail(e.target.value.replace('#', ''));
 };
 
 const onChangePhoneNumber = (e) => {
-  setPhoneNumber(e.target.value);
-};
+	const regex = /[^0-9+]/g;
+	setPhoneNumber(e.target.value.replace('#', '').replace(regex, ''));
+};	
 
 const onChangePassword = (e) => {
-  setPassword(e.target.value);
+  setPassword(e.target.value.replace('#', ''));
 };
 
 const onChangePIB = (e) => {
-  setPIB(e.target.value);
+  setPIB(e.target.value.replace('#', ''));
 };
 
 const onChangeContract = (e) => {
-  setContract(e.target.value);
+  setContract(e.target.value.replace('#', ''));
 };
 
 const onChangeAddress = (e) => {
-  setAddress(e.target.value);
+  setAddress(e.target.value.replace('#', ''));
 };
 
-	return (
+return (
     <div className={'form'}>
       <h3>Введіть ваші дані.</h3>
 			<h4>Email є обов'язковим, очікуйте код верифікації на цей Email</h4>
